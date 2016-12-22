@@ -35,11 +35,11 @@ defmodule Hashcash do
   end
   
   def resource(resource_string, date = [year: _y, month: _m, day: _d]) do
-    %Hashcash{resource: resource_string, date: date}
+    %Hashcash{resource: resource_string, rand: rand_generate, date: date}
   end
   
   def resource(resource_string) do
-    %Hashcash{resource: resource_string, date: date_now}
+    %Hashcash{resource: resource_string, rand: rand_generate, date: date_now}
   end
   
   def resource_bits(stamp,bits) when is_integer(bits) do
@@ -56,7 +56,7 @@ defmodule Hashcash do
     12
     |> :crypto.strong_rand_bytes
     |> Base.encode64
-    |> (fn s ->
+    |> (fn s -> # remove the trailing =
       slen = byte_size(s)-1
       <<core::binary-size(slen), _rest::binary>> = s
       core

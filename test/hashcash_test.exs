@@ -20,10 +20,14 @@ defmodule HashcashTest do
   
   test "create resource" do
     # This leaves date_now exposed as untested
-    assert(Hashcash.resource("testhashcash") ==
-      %Hashcash{resource: "testhashcash", bits: 20, date: Hashcash.date_now})
-    assert(Hashcash.resource("testhashcash") |> Hashcash.resource_bits(15) ==
-      %Hashcash{resource: "testhashcash", bits: 15, date: Hashcash.date_now})
+    r20 = Hashcash.resource("testhashcash")
+    assert( r20.bits == 20 )
+    assert( r20.resource == "testhashcash" )
+    assert( [year: y, month: m, day: d] = r20.date)
+    assert( y > 2000 and m in 1..12 and d in 1..31 )
+    assert( byte_size(r20.rand) > 12 )
+    r10 = Hashcash.resource_bits(r20,15)
+    assert( r10.bits == 15 )
   end
   test "create stamp" do
     assert(Hashcash.stamp(@wikipedia_example) == @wikipedia_stamp )
