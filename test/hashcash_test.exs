@@ -3,12 +3,8 @@ defmodule HashcashTest do
   use Bitwise
   doctest Hashcash
 
-  test "the truth" do
-    assert 1 + 1 == 2
-  end
-
   @wikipedia_example "1:20:060408:adam@cypherspace.org::1QTjaYd7niiQA/sc:ePa"
-  @wikipedia_stamp %Hashcash{counter: "ePa",
+  @wikipedia_hcash %Hashcash{counter: "ePa",
 			     date: [year: 2006, month: 4, day: 8],
 			     ext: "",
 			     rand: "1QTjaYd7niiQA/sc",
@@ -17,28 +13,28 @@ defmodule HashcashTest do
 			     bits: 20,
 			     stamp_string: @wikipedia_example
   }
-  
-  test "create resource" do
-    # This leaves date_now exposed as untested
+
+  test "create new hashcash" do
     r20 = Hashcash.resource("testhashcash")
     assert( r20.bits == 20 )
     assert( r20.resource == "testhashcash" )
     assert( [year: y, month: m, day: d] = r20.date)
     assert( y > 2000 and m in 1..12 and d in 1..31 )
     assert( byte_size(r20.rand) > 12 )
-    r10 = Hashcash.resource_bits(r20,15)
-    assert( r10.bits == 15 )
+    r15 = Hashcash.resource_bits(r20,15)
+    assert( r15.bits == 15 )
   end
-  test "create stamp" do
-    assert(Hashcash.stamp(@wikipedia_example) == @wikipedia_stamp )
+  
+  test "create hashcash from string" do
+    assert(Hashcash.stamp(@wikipedia_example) == @wikipedia_hcash )
   end
 
-  test "parse stamp" do
-    stamp = Hashcash.stamp(@wikipedia_example)
-    assert(stamp == @wikipedia_stamp)
-    assert(stamp.version == 1)
-    assert(stamp.bits == 20)
-    assert(stamp.date == [year: 2006, month: 4, day: 8])
+  test "create hashcash from string and verify parts" do
+    hcash = Hashcash.stamp(@wikipedia_example)
+    assert(hcash == @wikipedia_hcash)
+    assert(hcash.version == 1)
+    assert(hcash.bits == 20)
+    assert(hcash.date == [year: 2006, month: 4, day: 8])
   end
 
   def invalidate_stamp(stamp) do
@@ -65,9 +61,9 @@ defmodule HashcashTest do
   end
 
   test "verify errors" do
-    stamp = Hashcash.stamp(@wikipedia_example)
-    assert(Hashcash.verify(stamp,"foo@example.org") == {:error, :resource_mismatch})
-    assert(Hashcash.verify(stamp,"adam@cypherspace.org") == {:error, :resource_expired})
+    hcash = Hashcash.stamp(@wikipedia_example)
+    assert(Hashcash.verify(hcash,"foo@example.org") == {:error, :resource_mismatch})
+    assert(Hashcash.verify(hcash,"adam@cypherspace.org") == {:error, :resource_expired})
 
     stamp = invalidate_stamp("1:32:#{date_string}:testhashcash::foobar1234:1")
 
