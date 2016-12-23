@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/danj3/elixir-hashcash.svg?branch=master)](https://travis-ci.org/danj3/elixir-hashcash)
+
 # Hashcash
 
 Elixir implementation of the hashcash algorigthm as described in
