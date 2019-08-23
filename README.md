@@ -31,14 +31,14 @@ end
 
 ## Installation
 
-This is not applicable, not available on Hex, but will be shortly.
+Available [in Hex](https://hex.pm/packages/hashcash).
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+The package can be added to your project:
 
-  1. Add `hashcash` to your list of dependencies in `mix.exs`:
+    1. Add `hashcash` to your list of dependencies in `mix.exs`:
 
     ```elixir
     def deps do
-      [{:hashcash, "~> 0.1.0"}]
+      [{:hashcash, "~> 1.0"}]
     end
     ```
