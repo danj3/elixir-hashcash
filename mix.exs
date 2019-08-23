@@ -2,12 +2,28 @@ defmodule Hashcash.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :hashcash,
-     version: "0.1.0",
-     elixir: "~> 1.6",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps()]
+    [
+      app: :hashcash,
+      version: "1.0.0",
+      elixir: "~> 1.6",
+      build_embedded: Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+      deps: deps(),
+
+      description: "Proof of work resource creation, generation and verification",
+      package: package(),
+
+    ]
+  end
+
+  defp package do
+    [
+      maintainers: [ "Dan Janowski" ],
+      licenses: [ "Apache 2.0" ],
+      links: %{
+        "GitHub" => "https://github.com/danj3/elixir-hashcash"
+      }
+    ]
   end
 
   # Configuration for the OTP application
