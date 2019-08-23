@@ -43,6 +43,9 @@ defmodule Hashcash.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:dialyxir, "~> 0.4", only: [:dev], runtime: false}]
+    [
+      {:dialyxir, "~> 0.4", only: [:dev], runtime: false},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false},
+    ]
   end
 end
