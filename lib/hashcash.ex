@@ -40,21 +40,22 @@ defmodule Hashcash do
   # Create a new %Hashcash with the resource_string and specified
   # date Keyword list
   @spec resource(resource_string :: String.t, date :: Keyword.t) :: %Hashcash{}
-  def resource(resource_string, date = [year: _y, month: _m, day: _d]) do
-    %Hashcash{resource: resource_string, rand: rand_generate, date: date}
-  end
+  def resource(resource_string, date = [year: _y, month: _m, day: _d]),
+    do: %Hashcash{resource: resource_string,
+                  rand: rand_generate(),
+                  date: date}
 
   # Create a new %Hashcash with resource_string and today as the date.
   @spec resource(resource_string :: String.t) :: %Hashcash{}
-  def resource(resource_string) do
-    %Hashcash{resource: resource_string, rand: rand_generate, date: date_now}
-  end
+  def resource(resource_string),
+    do: %Hashcash{resource: resource_string,
+                  rand: rand_generate(),
+                  date: date_now()}
 
   # Modify the bits required of a %Hashcash
   @spec resource_bits(hcash :: %Hashcash{}, bits :: integer) :: %Hashcash{}
-  def resource_bits(hcash = %Hashcash{},bits) when is_integer(bits) do
-    %Hashcash{hcash | bits: bits}
-  end
+  def resource_bits(hcash = %Hashcash{},bits) when is_integer(bits),
+    do: %Hashcash{hcash | bits: bits}
 
   # Modify the date of a %Hashcash
   @spec resource_date(hcash :: %Hashcash{},
@@ -82,7 +83,7 @@ defmodule Hashcash do
   # Set rand field of %Hashcash to newly generated string
   @spec resource_rand(stamp :: %Hashcash{}) :: %Hashcash{}
   def resource_rand(hcash) do
-    %Hashcash{hcash | rand: rand_generate}
+    %Hashcash{hcash | rand: rand_generate()}
   end
 
   # Generate date string section from date keywords list
@@ -161,7 +162,7 @@ defmodule Hashcash do
   # Generate a full stamp, doing the work
   @spec generate(hcash :: %Hashcash{}) :: %Hashcash{}
   def generate(hcash) do
-    generate(hcash,System.os_time(:milliseconds))
+    generate(hcash,System.os_time(:millisecond))
   end
 
   @spec generate(hcash :: %Hashcash{}, began :: integer) :: %Hashcash{}
@@ -194,7 +195,7 @@ defmodule Hashcash do
   # Verify date keyword list is within 2 days
   @spec verify_time(date :: Keyword.t) :: tuple
   def verify_time(date) do
-    if System.os_time(:seconds) - date_seconds(date) < 86400*2 do
+    if System.os_time(:second) - date_seconds(date) < 86400*2 do
       {:ok}
     else
       {:error, :resource_expired}

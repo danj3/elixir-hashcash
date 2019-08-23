@@ -65,7 +65,7 @@ defmodule HashcashTest do
     assert(Hashcash.verify(hcash,"foo@example.org") == {:error, :resource_mismatch})
     assert(Hashcash.verify(hcash,"adam@cypherspace.org") == {:error, :resource_expired})
 
-    stamp = invalidate_stamp("1:32:#{date_string}:testhashcash::foobar1234:1")
+    stamp = invalidate_stamp("1:32:#{date_string()}:testhashcash::foobar1234:1")
 
     assert(Hashcash.stamp(stamp)
     |> Hashcash.verify("testhashcash") == {:error, :unproven})
