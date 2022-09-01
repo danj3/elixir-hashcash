@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/danj3/elixir-hashcash.svg?branch=master)](https://travis-ci.org/danj3/elixir-hashcash)
+[![Build Status](https://travis-ci.com/danj3/elixir-hashcash.svg?branch=master)](https://travis-ci.com/danj3/elixir-hashcash)
 
 # Hashcash
 
