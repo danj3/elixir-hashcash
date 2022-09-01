@@ -37,7 +37,7 @@ defmodule Hashcash do
 	      resource: resource,
 	      ext: ext,
 	      rand: rand,
-	      counter: counter,
+	      counter: String.to_integer(counter),
 	      stamp_string: stamp_string,
     }
   end
@@ -82,7 +82,7 @@ defmodule Hashcash do
   @doc "Generate the rand field using a crypto.strong_rand_bytes"
   @spec rand_generate :: String.t
   def rand_generate do
-    12
+    24
     |> :crypto.strong_rand_bytes
     |> Base.encode64
     |> strip_trailing_char # remove the trailing =
@@ -163,7 +163,7 @@ defmodule Hashcash do
   @doc "Validate the stamp string proof-of-work only. Use verify for full check"
   @spec validate(hcash :: t) :: tuple
   def validate(hcash) do
-    if zero_bits_count(hcash) == hcash.bits do
+    if zero_bits_count(hcash) >= hcash.bits do
       {:ok}
     else
       {:error, :unproven}
