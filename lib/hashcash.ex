@@ -215,7 +215,7 @@ defmodule Hashcash do
 
   @doc """
   Verfiy all attributes and proof of work against a list
-  of acceptable resources
+  of acceptable resources or a single resource string
   """
   @spec verify(hcash :: t, valid_resources :: list) :: tuple
   def verify(hcash = %Hashcash{},valid_resources = [_h|_t]) do
@@ -224,7 +224,6 @@ defmodule Hashcash do
 	 {:ok} <- validate(hcash), do: {:ok, :verified}
   end
 
-  @doc "Verfiy all attributes and proof of work against a single resources"
   @spec verify(hcash :: t, single_resource :: String.t) :: tuple
   def verify(hcash = %Hashcash{},single_resource) do
     verify(hcash,[single_resource])
