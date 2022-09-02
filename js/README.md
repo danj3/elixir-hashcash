@@ -25,7 +25,7 @@
 
 >> await hashcash.generate("1:16:220902:testcase-resource::CheQe4xfXH56n6gmkyxwdhn/zcRQ6GD")
 "1:16:220902:testcase-resource::CheQe4xfXH56n6gmkyxwdhn/zcRQ6GD:738"
-``
+```
 
 # hash results
 
