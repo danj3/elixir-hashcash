@@ -1,4 +1,37 @@
 defmodule Hashcash do
+  @moduledoc """
+  Elixir implementation of the hashcash algorigthm as described in
+  http://hashcash.org and
+  https://en.wikipedia.org/wiki/Hashcash
+
+  # Generate a stamp for another party to generate:
+
+  ```
+  Hashcash.resource("foobar") |> Hashcash.resource_format
+  %Hashcash{
+    bits: 20,
+    counter: 0,
+    date: [year: 2022, month: 9, day: 2],
+    ext: nil,
+    rand: "gAbLlrNJFwsKWincKbOvNP6kNkUHRt1",
+    resource: "foobar",
+    stamp_base: "1:20:220902:foobar::gAbLlrNJFwsKWincKbOvNP6kNkUHRt1",
+    stamp_string: "1:20:220902:foobar::gAbLlrNJFwsKWincKbOvNP6kNkUHRt1:0",
+    version: 1
+  }
+  ```
+
+  The `stamp_string` can be sent to the other party.
+
+  To verify:
+
+  ```
+  iex(4)> Hashcash.stamp("1:20:220902:foobar::GszJUJJC+tcQSkvw+GPg7FBYYi289eL:294524") |> Hashcash.verify("foobar")
+  {:ok, :verified}
+  ```
+
+  """
+
   require Logger
 
   defstruct version: 1,
@@ -27,18 +60,24 @@ defmodule Hashcash do
      <<date_y::binary-size(2), date_m::binary-size(2), date_d::binary-size(2)>>,
      resource,
      ext,
-     rand,
-     counter] = String.split(stamp_string,":")
+     rand | rest
+     ] = String.split(stamp_string,":")
+
+    counter =
+      case rest do
+        [] -> 0
+        [cs] -> String.to_integer(cs)
+      end
 
     %Hashcash{bits: String.to_integer(bits),
-	      date: [year: String.to_integer(date_y)+2000,
-		     month: String.to_integer(date_m),
-		     day: String.to_integer(date_d)],
-	      resource: resource,
-	      ext: ext,
-	      rand: rand,
-	      counter: String.to_integer(counter),
-	      stamp_string: stamp_string,
+	            date: [year: String.to_integer(date_y)+2000,
+		                 month: String.to_integer(date_m),
+		                 day: String.to_integer(date_d)],
+	            resource: resource,
+	            ext: ext,
+	            rand: rand,
+	            counter: counter,
+	            stamp_string: stamp_string,
     }
   end
   

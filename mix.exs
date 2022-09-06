@@ -4,7 +4,7 @@ defmodule Hashcash.Mixfile do
   def project do
     [
       app: :hashcash,
-      version: "1.1.0",
+      version: "1.2.0",
       elixir: "~> 1.6",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
@@ -19,10 +19,18 @@ defmodule Hashcash.Mixfile do
   defp package do
     [
       maintainers: [ "Dan Janowski" ],
-      licenses: [ "Apache 2.0" ],
+      licenses: [ "Apache-2.0" ],
       links: %{
         "GitHub" => "https://github.com/danj3/elixir-hashcash"
-      }
+      },
+      files: [
+        "lib/hashcash.ex",
+        "mix.exs",
+        "README.md",
+        "js/hashcash.js",
+        "js/README.md",
+      ]
+
     ]
   end
 
